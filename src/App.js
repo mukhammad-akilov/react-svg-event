@@ -25,32 +25,27 @@ const App = () =>  {
         }
     }
 
-    const handleSvgClick = (event) => {
-        const svgElem = document.getElementById("automatika-roadmap");
-        const svgTitles = svgElem.querySelectorAll(".roadmap-title");
-
-        for(let svgTitle of svgTitles) {
-
-            svgTitle.addEventListener("click", event => {
-                // Clear all active titles
-                clearActiveTitles(svgTitles);
-                svgTitle.classList.add("roadmap-title-active");
-
-                const [_ignore, _ignore2, id] = svgTitle.dataset.value.split("-");
-                setSelectedTitle({
-                    id: parseInt(id),
-                    title: mapTitles.get(parseInt(id)),
-                })
-            })
-        }
-    }
-
     useEffect(() => {
-        window.addEventListener("load", handleSvgClick);
+        const handleSvgClick = (event) => {
+            const svgElem = document.getElementById("automatika-roadmap");
+            const svgTitles = svgElem.querySelectorAll(".roadmap-title");
+            for(let svgTitle of svgTitles) {
+                svgTitle.addEventListener("click", event => {
+                    // Clear all active titles
+                    clearActiveTitles(svgTitles);
+                    svgTitle.classList.add("roadmap-title-active");
 
-        return () => {
-            window.removeEventListener("load", handleSvgClick);
+                    const [_ignore, _ignore2, id] = svgTitle.dataset.value.split("-");
+                    setSelectedTitle({
+                        id: parseInt(id),
+                        title: mapTitles.get(parseInt(id)),
+                    })
+                }, false)
+            }
+
         }
+
+        handleSvgClick();
     }, []);
 
   return (
